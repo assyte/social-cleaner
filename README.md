@@ -24,6 +24,7 @@
   <a href="#quick-start">Quick start</a> ·
   <a href="#security-model">Security</a> ·
   <a href="#plans">Plans</a> ·
+  <a href="CHANGELOG.md">Changelog</a> ·
   <a href="https://github.com/assyte">Support</a>
 </p>
 
