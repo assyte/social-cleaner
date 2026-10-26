@@ -36,12 +36,12 @@
 
 | Track | Status |
 | --- | --- |
-| **Source** | MIT-licensed source release candidate; first commit and remote CI are the remaining release-engineering steps. |
+| **Source** | Public on GitHub under the MIT License. CI, CodeQL, Dependabot, secret scanning, push protection, private vulnerability reporting, and `main` branch protection are enabled. |
 | **Hosted app** | Pre-public-release. A hosted public launch is blocked on legal pages, transactional email, production infrastructure, monitoring, and a real search-provider key. |
 | **Billing** | Free to use. Paid hosting/support is arranged manually through [@assyte on GitHub](https://github.com/assyte). There is no checkout and no card collection on the site. |
 
-The repository is intentionally prepared as **free and open source** first. A hosted service
-can follow after the operational and legal blockers in
+The repository is published as **free and open source** first. A hosted service can follow
+after the operational and legal blockers in
 [`docs/LAUNCH-READINESS.md`](docs/LAUNCH-READINESS.md) are closed.
 
 ## Product preview
@@ -214,7 +214,8 @@ behind a trusted proxy that overwrites forwarding headers. See
 | --- | --- |
 | `npm run verify` | Typecheck, **101/101 tests**, production build |
 | `npm audit --audit-level=high` | **0 known vulnerabilities** |
-| CI | Typecheck, tests, build, and dependency audit on push/pull request |
+| CI | GitHub Actions on `main`: typecheck, tests, build, and dependency audit |
+| Security automation | CodeQL, Dependabot, secret scanning, push protection, and private vulnerability reporting |
 | Public pages | `/`, `/pricing`, `/login`, `/register` return `200` |
 | Auth boundary | Protected pages redirect to `/login`; protected APIs return `401` |
 | CSRF/origin | Missing CSRF token and cross-origin mutation return `403` |
@@ -245,7 +246,7 @@ docs/                  Architecture, API, threat model, audits, launch plan
 
 | Phase | Focus |
 | --- | --- |
-| **Source release** | First commit, GitHub CI green, branch protection, secret scanning, private vulnerability reporting |
+| **Source release** | Complete: public repository, green CI, branch protection, CodeQL, secret scanning, Dependabot, private vulnerability reporting |
 | **Hosted beta** | Legal pages, transactional email, production DB/backups, monitoring, provider key, trusted proxy |
 | **Later** | Durable scan queue, Redis/DB rate limits, monitoring and removal drafts, AI/visual assistance, breach notifications |
 
