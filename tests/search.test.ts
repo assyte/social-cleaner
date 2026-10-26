@@ -19,6 +19,11 @@ function fakeFetch(handler: (url: string) => Response): typeof fetch {
   return (async (input: RequestInfo | URL) => handler(String(input))) as typeof fetch;
 }
 
+function urlParts(url: string): { host: string; path: string } {
+  const parsed = new URL(url);
+  return { host: parsed.hostname, path: parsed.pathname };
+}
+
 async function declareOwner(cookie: string, csrf: string): Promise<void> {
   const response = await declareOwnershipRoute(
     makeRequest("POST", "/api/vault/ownership", {
@@ -76,6 +81,15 @@ describe("doğrudan profil kontrolü", () => {
   it("HTTP 404 bulunamadı sayılır", async () => {
     const result = await checkPlatform(getPlatform("codeberg")!, "aday", fakeFetch(() => html("", 404)));
     expect(result.outcome).toBe("not_found");
+  });
+
+  it("başlık varlıklarını tek geçişte çözer", async () => {
+    const result = await checkPlatform(
+      getPlatform("instagram")!,
+      "aday",
+      fakeFetch(() => html("<title>&amp;lt;script&amp;gt; &amp;amp; ok</title>&#064;aday)")),
+    );
+    expect(result.evidence.title).toBe("&lt;script&gt; &amp; ok");
   });
 
   it("403 engellendi olarak raporlanır, bulundu değil", async () => {
@@ -245,7 +259,8 @@ describe("arama API", () => {
     vi.stubGlobal(
       "fetch",
       fakeFetch((url) => {
-        if (url.includes("github.com/aday")) return html("<title>GitHub - aday</title>");
+        const { host, path } = urlParts(url);
+        if (host === "github.com" && path === "/aday") return html("<title>GitHub - aday</title>");
         return html("", 404);
       }),
     );
@@ -279,7 +294,8 @@ describe("arama API", () => {
     vi.stubGlobal(
       "fetch",
       fakeFetch((url) => {
-        if (url.includes("github.com/aday")) return html("<title>GitHub - aday</title>");
+        const { host, path } = urlParts(url);
+        if (host === "github.com" && path === "/aday") return html("<title>GitHub - aday</title>");
         return html("", 404);
       }),
     );
@@ -305,8 +321,9 @@ describe("arama API", () => {
     vi.stubGlobal(
       "fetch",
       fakeFetch((url) => {
-        if (url.includes("instagram.com")) return html("<title>&#064;aday)</title>");
-        if (url.includes("tiktok.com")) {
+        const { host } = urlParts(url);
+        if (host === "www.instagram.com") return html("<title>&#064;aday)</title>");
+        if (host === "www.tiktok.com") {
           return html('<script>{"webapp.user-detail":{"userInfo":{}}}</script>');
         }
         return html("ok");

@@ -94,16 +94,49 @@ function buildProfileUrl(platform: PlatformDefinition, handle: string): string {
  return fn(handle);
 }
 
+const HTML_ENTITY_MAP: Record<string, string> = {
+ amp: "&",
+ lt: "<",
+ gt: ">",
+ quot: '"',
+ apos: "'",
+ nbsp: " ",
+ "#x27": "'",
+ "#39": "'",
+ "#x2f": "/",
+};
+
+/**
+ * Decode the small set of entities that can appear in a page title in one
+ * pass. Sequential replacements would re-decode values such as `&amp;lt;`.
+ */
+function decodeHtmlEntities(input: string): string {
+ return input.replace(/&(#x[0-9a-f]+|#[0-9]+|[a-z][a-z0-9]+);/gi, (entity, body: string) => {
+  const key = body.toLowerCase();
+  const named = HTML_ENTITY_MAP[key];
+  if (named) return named;
+
+  if (key.startsWith("#x") || key.startsWith("#")) {
+   const hex = key.startsWith("#x");
+   const codePoint = Number.parseInt(key.slice(hex ? 2 : 1), hex ? 16 : 10);
+   if (
+    Number.isInteger(codePoint) &&
+    codePoint >= 0 &&
+    codePoint <= 0x10ffff &&
+    !(codePoint >= 0xd800 && codePoint <= 0xdfff)
+   ) {
+    return String.fromCodePoint(codePoint);
+   }
+  }
+
+  return entity;
+ });
+}
+
 function cleanTitle(html: string): string | null {
  const match = html.match(/<title[^>]*>([\s\S]*?)<\/title>/i);
  if (!match?.[1]) return null;
- const decoded = match[1]
- .replace(/&amp;/g, "&")
- .replace(/&lt;/g, "<")
- .replace(/&gt;/g, ">")
- .replace(/&quot;/g, '"')
- .replace(/&#x27;|&#39;/g, "'")
- .replace(/&#x2F;/g, "/")
+ const decoded = decodeHtmlEntities(match[1])
  .replace(/[\u0000-\u001f\u007f]/g, " ")
  .replace(/\s+/g, " ")
  .trim();
