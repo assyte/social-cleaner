@@ -7,7 +7,7 @@
   <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-49e59a?style=for-the-badge&labelColor=050505" alt="MIT License"></a>
   <img src="https://img.shields.io/badge/Next.js-16.4.3-000000?style=for-the-badge&logo=nextdotjs&logoColor=white" alt="Next.js 16.4.3">
   <img src="https://img.shields.io/badge/Node.js-%3E%3D22.12-339933?style=for-the-badge&logo=nodedotjs&logoColor=white" alt="Node.js 22.12 or newer">
-  <img src="https://img.shields.io/badge/tests-101%20passing-49e59a?style=for-the-badge&labelColor=050505" alt="101 tests passing">
+  <img src="https://img.shields.io/badge/tests-102%20passing-49e59a?style=for-the-badge&labelColor=050505" alt="102 tests passing">
   <img src="https://img.shields.io/badge/audit-0%20vulnerabilities-49e59a?style=for-the-badge&labelColor=050505" alt="0 known vulnerabilities">
 </p>
 
@@ -214,7 +214,7 @@ behind a trusted proxy that overwrites forwarding headers. See
 
 | Check | Result |
 | --- | --- |
-| `npm run verify` | Typecheck, **101/101 tests**, production build |
+| `npm run verify` | Typecheck, **102/102 tests**, production build |
 | `npm audit --audit-level=high` | **0 known vulnerabilities** |
 | CI | GitHub Actions on `main`: typecheck, tests, build, and dependency audit |
 | Security automation | CodeQL, Dependabot, secret scanning, push protection, and private vulnerability reporting |

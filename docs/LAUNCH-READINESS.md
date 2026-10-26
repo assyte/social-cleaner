@@ -193,7 +193,7 @@ changes hands.
 - Retention sweep script.
 - Honest pricing/roadmap copy.
 - MIT license, GitHub support/payment CTA, and free/open-source positioning.
-- Current validation: typecheck, 101 tests, production build, route smoke, export, retention.
+- Current validation: typecheck, 102 tests, production build, route smoke, export, retention.
 
 ### Phase 1 — Launch blockers (target: 1–3 weeks)
 
