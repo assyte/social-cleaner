@@ -1,0 +1,64 @@
+{
+  "name": "social-cleaner",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "license": "MIT",
+  "author": "assyte",
+  "description": "Privacy-first public digital footprint audit, evidence vault, and removal guidance",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/assyte/social-cleaner.git"
+  },
+  "homepage": "https://github.com/assyte/social-cleaner#readme",
+  "bugs": {
+    "url": "https://github.com/assyte/social-cleaner/issues"
+  },
+  "keywords": [
+    "privacy",
+    "digital-footprint",
+    "account-cleanup",
+    "removal",
+    "nextjs",
+    "typescript",
+    "sqlite"
+  ],
+  "engines": {
+    "node": ">=22.12.0"
+  },
+  "scripts": {
+    "setup": "node scripts/setup.mjs",
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "db:migrate": "tsx --env-file-if-exists=.env.local scripts/migrate.ts",
+    "db:reset": "tsx --env-file-if-exists=.env.local scripts/reset-db.ts",
+    "retention:sweep": "tsx --env-file-if-exists=.env.local scripts/retention.ts",
+    "plan:set": "tsx --env-file-if-exists=.env.local scripts/set-plan.ts",
+    "verify": "npm run typecheck && npm run test && npm run build"
+  },
+  "dependencies": {
+    "@libsql/client": "0.18.0",
+    "drizzle-orm": "0.45.4",
+    "next": "16.4.3",
+    "react": "19.3.1",
+    "react-dom": "19.3.1",
+    "zod": "4.6.7"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "4.3.3",
+    "@types/node": "24.19.2",
+    "@types/react": "19.3.0",
+    "@types/react-dom": "19.3.0",
+    "tailwindcss": "4.3.3",
+    "tsx": "^4.23.15",
+    "typescript": "5.9.3",
+    "vitest": "5.0.5"
+  },
+  "allowScripts": {
+    "esbuild@0.28.2": true
+  }
+}

@@ -1,0 +1,55 @@
+name: Feature request
+description: Suggest a privacy-safe improvement
+title: "[Feature]: "
+labels: ["enhancement"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Describe the user problem first. Do not propose scraping login-gated pages,
+        bypassing platform controls, or investigating someone else's identity.
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem
+      description: What user need is not covered today?
+    validations:
+      required: true
+
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposal
+      description: What should change, and how should it respect the ownership and evidence rules?
+    validations:
+      required: true
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives considered
+    validations:
+      required: false
+
+  - type: dropdown
+    id: plan
+    attributes:
+      label: Plan impact
+      options:
+        - No plan change
+        - Free feature
+        - Pro feature
+        - Unclear
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Safety checks
+      options:
+        - label: The proposal does not require private, login-gated, or third-party data.
+          required: true
+        - label: I checked the README, launch audit, and roadmap for existing plans.
+          required: true

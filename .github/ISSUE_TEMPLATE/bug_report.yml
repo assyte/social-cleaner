@@ -1,0 +1,91 @@
+name: Bug report
+description: Report a reproducible bug using synthetic data
+title: "[Bug]: "
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Do not include real names, emails, phone numbers, profile URLs, cookies, API keys,
+        database files, or `SC_MASTER_KEY`. Use synthetic test data and redact screenshots.
+
+        For security vulnerabilities, follow SECURITY.md instead of opening a public issue.
+
+  - type: textarea
+    id: summary
+    attributes:
+      label: Summary
+      description: What went wrong?
+    validations:
+      required: true
+
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      description: Include the smallest safe reproduction.
+      placeholder: |
+        1. Run ...
+        2. Open ...
+        3. Observe ...
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behavior
+    validations:
+      required: true
+
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual behavior
+      description: Include the error code or a redacted log line, not personal data.
+    validations:
+      required: true
+
+  - type: dropdown
+    id: area
+    attributes:
+      label: Area
+      options:
+        - Authentication / sessions
+        - Identity Vault
+        - Search / coverage
+        - Remove Guide
+        - Pricing / plan limits
+        - UI / accessibility
+        - Build / tooling
+        - Other
+    validations:
+      required: true
+
+  - type: input
+    id: version
+    attributes:
+      label: Commit or version
+      placeholder: e.g. local main after 2026-10-26
+    validations:
+      required: true
+
+  - type: input
+    id: environment
+    attributes:
+      label: Environment
+      placeholder: e.g. Node 24.19, Windows 11, npm 11.17
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Safety checks
+      options:
+        - label: I used synthetic data and did not include third-party personal data.
+          required: true
+        - label: This is not a security vulnerability; I will report those privately.
+          required: true
+        - label: I searched existing issues and documentation.
+          required: true

@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Security report
+    url: https://github.com/assyte/social-cleaner/security/advisories/new
+    about: Report vulnerabilities privately; never include real personal data or secrets.
+  - name: Support, hosting, and payment questions
+    url: https://github.com/assyte
+    about: Contact @assyte on GitHub for manual support or hosted-plan questions.

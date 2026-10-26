@@ -1,0 +1,281 @@
+@import "tailwindcss";
+
+/* Self-hosted fonts: no third-party request, no layout shift, Turkish glyphs included. */
+@font-face {
+ font-family: "Manrope";
+ font-style: normal;
+ font-weight: 200 800;
+ font-display: swap;
+ src: url("/fonts/manrope-latin.woff2") format("woff2");
+ unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304,
+ U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+ font-family: "Manrope";
+ font-style: normal;
+ font-weight: 200 800;
+ font-display: swap;
+ src: url("/fonts/manrope-latin-ext.woff2") format("woff2");
+ unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304,
+ U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0,
+ U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+ font-family: "JetBrains Mono";
+ font-style: normal;
+ font-weight: 400 700;
+ font-display: swap;
+ src: url("/fonts/jetbrains-mono-latin.woff2") format("woff2");
+ unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304,
+ U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+ font-family: "JetBrains Mono";
+ font-style: normal;
+ font-weight: 400 700;
+ font-display: swap;
+ src: url("/fonts/jetbrains-mono-latin-ext.woff2") format("woff2");
+ unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304,
+ U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0,
+ U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+
+@theme {
+ --color-canvas: #000000;
+ --color-surface: #0a0a0a;
+ --color-surface-2: #121212;
+ --color-surface-3: #1a1a1a;
+ --color-line: #1f1f1f;
+ --color-line-strong: #2a2a2a;
+ --color-fg: #f5f5f5;
+ --color-muted: #9a9a9a;
+ --color-accent: #ffffff;
+ --color-accent-strong: #e5e5e5;
+ --color-accent-soft: #141414;
+ --color-secondary: #737373;
+ --color-secondary-soft: #111111;
+ --color-success: #10b981;
+ --color-warn: #f59e0b;
+ --color-danger: #ef4444;
+ --font-sans: "Manrope", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto,
+ "Helvetica Neue", Arial, sans-serif;
+ --font-mono: "JetBrains Mono", ui-monospace, "Cascadia Code", "SF Mono", Consolas,
+ "Liberation Mono", monospace;
+ --shadow-soft: 0 1px 0 rgba(255, 255, 255, 0.025) inset, 0 18px 40px -32px rgba(0, 0, 0, 0.9);
+ --shadow-lift: 0 1px 0 rgba(255, 255, 255, 0.04) inset, 0 24px 50px -30px rgba(0, 0, 0, 0.95);
+ --shadow-glow: 0 0 0 1px rgba(255, 255, 255, 0.08), 0 12px 30px -22px rgba(255, 255, 255, 0.25);
+}
+
+@layer base {
+ html {
+ color-scheme: dark;
+ scroll-behavior: smooth;
+ }
+
+ body {
+ background-color: var(--color-canvas);
+ background-image: none;
+ color: var(--color-fg);
+ font-family: var(--font-sans);
+ -webkit-font-smoothing: antialiased;
+ text-rendering: optimizeLegibility;
+ font-feature-settings: "tnum" 0, "ss01" 1, "cv11" 1;
+ letter-spacing: -0.011em;
+ }
+
+ h1,
+ h2,
+ h3,
+ h4 {
+ letter-spacing: -0.028em;
+ }
+
+ ::selection {
+ background-color: rgba(255, 255, 255, 0.16);
+ }
+
+ *:focus-visible {
+ outline: 2px solid var(--color-accent);
+ outline-offset: 2px;
+ border-radius: 8px;
+ }
+}
+
+@layer utilities {
+ .grid-bg {
+ background-image:
+ linear-gradient(to right, rgba(255, 255, 255, 0.035) 1px, transparent 1px),
+ linear-gradient(to bottom, rgba(255, 255, 255, 0.035) 1px, transparent 1px);
+ background-size: 44px 44px;
+ }
+
+ .mesh-bg {
+ background-image:
+ radial-gradient(circle at 8% 8%, rgba(255, 255, 255, 0.055), transparent 26rem),
+ radial-gradient(circle at 92% 10%, rgba(255, 255, 255, 0.035), transparent 22rem);
+ }
+
+ .glass {
+ background-color: rgba(10, 10, 10, 0.82);
+ backdrop-filter: blur(18px) saturate(110%);
+ }
+
+ .gradient-text {
+ background-image: linear-gradient(120deg, #525252 0%, #a3a3a3 40%, #d4d4d4 100%);
+ -webkit-background-clip: text;
+ background-clip: text;
+ color: transparent;
+ }
+
+ .tabular {
+ font-variant-numeric: tabular-nums;
+ }
+
+ .animate-rise {
+ animation: sc-rise 0.6s cubic-bezier(0.22, 1, 0.36, 1) both;
+ }
+
+ .animate-fade {
+ animation: sc-fade 0.45s ease-out both;
+ }
+
+ .animate-drawer {
+ animation: sc-drawer 0.28s cubic-bezier(0.22, 1, 0.36, 1) both;
+ }
+
+ .animate-pop {
+ animation: sc-pop 0.35s cubic-bezier(0.22, 1, 0.36, 1) both;
+ }
+
+ .animate-float {
+ animation: sc-float 6s ease-in-out infinite;
+ }
+
+ .animate-float-slow {
+ animation: sc-float 9s ease-in-out infinite;
+ }
+
+ .animate-shimmer {
+ background-image: linear-gradient(
+ 90deg,
+ rgba(255, 255, 255, 0.06) 0%,
+ rgba(255, 255, 255, 0.22) 45%,
+ rgba(255, 255, 255, 0.06) 100%
+ );
+ background-size: 200% 100%;
+ animation: sc-shimmer 1.4s linear infinite;
+ }
+
+ .marquee-track {
+ animation: sc-marquee 34s linear infinite;
+ }
+
+ .marquee-mask {
+ mask-image: linear-gradient(to right, transparent, black 8%, black 92%, transparent);
+ }
+
+ .delay-1 {
+ animation-delay: 0.06s;
+ }
+ .delay-2 {
+ animation-delay: 0.12s;
+ }
+ .delay-3 {
+ animation-delay: 0.18s;
+ }
+ .delay-4 {
+ animation-delay: 0.24s;
+ }
+ .delay-5 {
+ animation-delay: 0.3s;
+ }
+ .delay-6 {
+ animation-delay: 0.36s;
+ }
+}
+
+@keyframes sc-rise {
+ from {
+ opacity: 0;
+ transform: translateY(14px) scale(0.992);
+ }
+ to {
+ opacity: 1;
+ transform: translateY(0) scale(1);
+ }
+}
+
+@keyframes sc-fade {
+ from {
+ opacity: 0;
+ }
+ to {
+ opacity: 1;
+ }
+}
+
+@keyframes sc-pop {
+ from {
+ opacity: 0;
+ transform: scale(0.96);
+ }
+ to {
+ opacity: 1;
+ transform: scale(1);
+ }
+}
+
+@keyframes sc-drawer {
+ from {
+ opacity: 0;
+ transform: translateX(24px);
+ }
+ to {
+ opacity: 1;
+ transform: translateX(0);
+ }
+}
+
+@keyframes sc-float {
+ 0%,
+ 100% {
+ transform: translateY(0);
+ }
+ 50% {
+ transform: translateY(-9px);
+ }
+}
+
+@keyframes sc-shimmer {
+ from {
+ background-position: 200% 0;
+ }
+ to {
+ background-position: -200% 0;
+ }
+}
+
+@keyframes sc-marquee {
+ from {
+ transform: translateX(0);
+ }
+ to {
+ transform: translateX(-50%);
+ }
+}
+
+@media (prefers-reduced-motion: reduce) {
+ html {
+ scroll-behavior: auto;
+ }
+ .animate-rise,
+ .animate-fade,
+ .animate-drawer,
+ .animate-pop,
+ .animate-float,
+ .animate-float-slow,
+ .animate-shimmer,
+ .marquee-track {
+ animation: none !important;
+ }
+}

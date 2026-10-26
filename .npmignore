@@ -1,0 +1,23 @@
+# Explicit package contents. This repository is private and is not published to npm,
+# but keep local data, secrets, and generated output out of any accidental tarball.
+.next/
+data/
+node_modules/
+coverage/
+.env
+.env.*
+!.env.example
+*.db
+*.db-wal
+*.db-shm
+*.sqlite
+*.sqlite3
+*.sqlite-wal
+*.sqlite-shm
+*.log
+*.tgz
+*.pem
+*.key
+*.p12
+*.pfx
+backups/
