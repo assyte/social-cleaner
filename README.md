@@ -61,8 +61,9 @@ after the operational and legal blockers in
 Most “find yourself online” tools blur three different things: a username match, a real
 profile, and proof that the account belongs to you. Social Cleaner keeps them separate.
 
-- **Evidence first.** Every checked platform gets a real profile URL and a readable evidence
-  row. A `200` page, a `404`, a login wall, and a manual-only platform are different outcomes.
+- **Evidence first.** Every result points to the public profile URL that was checked and
+  records a readable evidence row. A `200` page, a `404`, a login wall, and a manual-only
+  platform are different outcomes.
 - **Blocked is not proof.** A CAPTCHA or login wall never becomes a “found” result and never
   becomes a “not found” result. It is recorded as blocked or unverified.
 - **Ownership stays explicit.** The user declares ownership; the app does not infer it from a
