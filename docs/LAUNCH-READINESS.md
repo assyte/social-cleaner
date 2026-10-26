@@ -3,11 +3,13 @@
 Date: 2026-10-26<br>
 Product: Social Cleaner<br>
 Audit type: manual full-site product, security, compliance, and visual review<br>
-Verdict: **the GitHub source repository is ready to publish after the release-engineering
-checklist: a reviewed initial commit, a green CI run, branch protection, and a secret scan.
-A hosted public launch is not ready; it remains blocked by legal pages, transactional email,
-production infrastructure, and a real search-provider key. Automated billing is intentionally
-out of scope for the free release; paid hosting/support is manual via GitHub.**
+Verdict: **the GitHub source repository is public at
+<https://github.com/assyte/social-cleaner>. The initial commit is pushed, CI is green,
+`main` is protected, and CodeQL, Dependabot, secret scanning, push protection, and private
+vulnerability reporting are enabled. A hosted public launch is not ready; it remains blocked
+by legal pages, transactional email, production infrastructure, and a real search-provider
+key. Automated billing is intentionally out of scope for the free release; paid
+hosting/support is manual via GitHub.**
 
 ## 1. Executive summary
 
@@ -16,15 +18,15 @@ working encrypted vault, real public-profile checks, a 115-platform Remove Guide
 server-side Free/Pro enforcement. The AMOLED design remains premium, but small panels are
 now compact and readable rather than decorative.
 
-The remaining gaps are not "polish." For **source publication**, the remaining work is
-release engineering: make the reviewed initial commit, run the included CI on GitHub, protect
-the default branch, and scan the history for secrets. For a **hosted public launch**, the gaps
-are launch infrastructure and trust obligations: transactional email, legal terms/privacy,
-production deployment, backups, a scheduled retention job, and a real search-provider key.
-The product is now positioned as free and open source under the MIT License, with paid
-hosting/support arranged manually through GitHub. That removes automated billing from the
-free-launch critical path, but it does not remove the need for a clear payment/support policy,
-invoices, and tax handling once money changes hands.
+The remaining gaps are not "polish." **Source publication is complete:** the repository is
+public, the initial commit is pushed, CI is green, the default branch is protected, and
+security automation is enabled. For a **hosted public launch**, the gaps are launch
+infrastructure and trust obligations: transactional email, legal terms/privacy, production
+deployment, backups, a scheduled retention job, and a real search-provider key. The product is
+free and open source under the MIT License, with paid hosting/support arranged manually through
+GitHub. That removes automated billing from the free-launch critical path, but it does not
+remove the need for a clear payment/support policy, invoices, and tax handling once money
+changes hands.
 
 ### Readiness scorecard
 
@@ -40,7 +42,8 @@ invoices, and tax handling once money changes hands.
 | Email verification / password reset | Not implemented | **Blocker** |
 | Production database, backups, retention schedule | Local SQLite only; retention script exists | **Blocker** |
 | Search provider coverage | Missing key; default `mock` returns 503 | **Blocker for name/email/phone** |
-| Source control and CI | No commits; CI workflow added locally but has not run remotely | **Blocker for release** |
+| Source control and CI | Public GitHub repository; green CI; protected `main`; CodeQL, Dependabot, secret scanning, push protection, private vulnerability reporting | Ready for source release |
+| Security automation | CI audit, CodeQL, Dependabot, secret scanning, push protection, private vulnerability reporting | Ready for source release |
 | Monitoring, alerting, support | GitHub-only support; no monitoring/alerting/SLA | High |
 | SEO / Open Graph / sitemap | Intentionally noindex; no assets | High |
 | Accessibility and mobile regression | Manual smoke only | High |
@@ -125,7 +128,14 @@ invoices, and tax handling once money changes hands.
 | C2 | **No legal surface.** No Terms, Privacy Policy, KVKK/GDPR notice, subprocessor list, or DPA with Brave/Tavily. No legal entity or complaint contact beyond the GitHub profile. | repository root; `src/app` has no `/terms` or `/privacy` | Have counsel draft terms/privacy/KVKK-GDPR notices; publish subprocessors and retention; sign provider DPAs; add contact and complaint channels. |
 | C3 | **No production deployment or recovery plan.** Local SQLite file; no managed database, backups, restore drill, or scheduled retention. The sweep script exists but is not scheduled. | `data/app.db` assumption; `src/server/db/client.ts`; `scripts/retention.ts` | Use managed Postgres/libSQL; enable encrypted backups and point-in-time recovery; schedule `retention:sweep` daily; document and test restore; separate `SC_MASTER_KEY` custody. |
 | C4 | **No transactional email or account recovery.** No email verification, password reset, login notices, or support contact. | auth flows in `src/server/auth`, `src/server/api/auth-handlers.ts` | Add an email provider, verification tokens, reset tokens with single-use expiry, and security notifications. |
-| C5 | **No source-control baseline.** `git log` has no commits; every project file is staged on `main` but not committed. CI is defined locally but has not run on a remote. | `git status`, `git log`, `.github/workflows/ci.yml` | Create a reviewed initial commit, protect the main branch, run the included CI, tag releases, and keep secrets out of history. |
+
+### Resolved in this release
+
+- **C5 / H11 — source control, CI, and release gate.** The source is public at
+  <https://github.com/assyte/social-cleaner>. The initial commit is pushed, CI is green,
+  `main` requires the CI check, and CodeQL, Dependabot, secret scanning, push protection, and
+  private vulnerability reporting are enabled. A hosted deploy/rollback pipeline remains part
+  of Phase 1.
 
 ### High — close before public beta or immediately after
 
@@ -141,7 +151,6 @@ invoices, and tax handling once money changes hands.
 | H8 | **Encryption key lifecycle is manual.** `SC_MASTER_KEY` loss is unrecoverable; no KMS, rotation, or envelope re-wrap procedure. | `src/server/crypto/field-cipher.ts`, `.env.example` | Use a managed secret/KMS, document rotation, and test restore with the old key. |
 | H9 | **Database encryption at rest is not guaranteed.** Field-level encryption protects selected columns, not the whole database file or backups. | `src/server/db/client.ts` | Use encrypted volumes/managed DB encryption and encrypted backups. |
 | H10 | **Search provider PII processing needs a legal basis.** Queries and profile URLs leave the app for Brave/Tavily/GitHub/Gravatar. | `src/server/search/providers.ts` | Disclose subprocessors, data categories, retention, and opt-in; sign DPAs; avoid sending email/phone to services that do not need them. |
-| H11 | **CI has not run remotely; no release or deploy gate.** A local GitHub Actions workflow now covers install, typecheck, tests, build, and dependency audit. | `.github/workflows/ci.yml` | Run CI on GitHub, fix any platform-only failures, add a secret scan and deploy-from-tag workflow, and require CI before merge. |
 | H12 | **No backup/restore or incident-response drill.** | operations absent | Write runbooks for outage, data loss, key loss, provider outage, and account compromise; test quarterly. |
 | H13 | **IP-based limits trust forwarding headers.** `clientIp()` reads `X-Forwarded-For` / `X-Real-IP` without a trusted-proxy setting; a direct deployment can spoof the bucket key and audit IP hash. | `src/server/http/errors.ts` | Terminate TLS at a proxy that overwrites both headers; add an explicit trusted-proxy configuration and test it. |
 
@@ -197,8 +206,9 @@ invoices, and tax handling once money changes hands.
    WAF, cron for retention, restore drill.
 4. **Auth lifecycle**: email verification, reset, security notifications, session list/revoke.
 5. **Provider**: Brave/Tavily key, quota/cost guard, provider status UI, DPA and disclosure.
-6. **Release engineering**: first commit, protected main, run the included CI, secret scan,
-   dependency audit, staging deploy, rollback plan.
+6. **Release engineering**: completed for the source release (first commit, protected `main`,
+   green CI, CodeQL, Dependabot, secret scanning, push protection, private vulnerability
+   reporting). Still needed for hosted launch: staging deploy and rollback plan.
 7. **Launch metadata**: OG image, sitemap, canonical URLs, remove noindex, smoke test in
    production.
 
